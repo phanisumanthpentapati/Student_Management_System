@@ -23,7 +23,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/students")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "https://student-management-system-2cnb.vercel.app/"
+})
 public class StudentController {
 
     private final StudentService studentService;
@@ -45,28 +48,39 @@ public class StudentController {
 
     // Get all students
     @GetMapping
-    public List<Student> getAllStudents() {
-        return studentService.getAllStudents();
+    public ResponseEntity<List<Student>> getAllStudents() {
+
+        List<Student> students = studentService.getAllStudents();
+
+        return ResponseEntity.ok(students);
     }
 
     // Get a student by ID
     @GetMapping("/{id}")
-    public Student getStudentById(@PathVariable Long id) {
-        return studentService.getStudentById(id);
+    public ResponseEntity<Student> getStudentById(
+            @PathVariable Long id) {
+
+        Student student = studentService.getStudentById(id);
+
+        return ResponseEntity.ok(student);
     }
 
-    // Update a student
+    // Update an existing student
     @PutMapping("/{id}")
-    public Student updateStudent(
+    public ResponseEntity<Student> updateStudent(
             @PathVariable Long id,
             @Valid @RequestBody Student student) {
 
-        return studentService.updateStudent(id, student);
+        Student updatedStudent =
+                studentService.updateStudent(id, student);
+
+        return ResponseEntity.ok(updatedStudent);
     }
 
     // Delete a student
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteStudent(
+            @PathVariable Long id) {
 
         studentService.deleteStudent(id);
 
@@ -75,15 +89,23 @@ public class StudentController {
 
     // Search students by name
     @GetMapping("/search")
-    public List<Student> searchByName(@RequestParam String name) {
-        return studentService.searchByName(name);
+    public ResponseEntity<List<Student>> searchByName(
+            @RequestParam String name) {
+
+        List<Student> students =
+                studentService.searchByName(name);
+
+        return ResponseEntity.ok(students);
     }
 
     // Get students by department
     @GetMapping("/department/{department}")
-    public List<Student> getByDepartment(
+    public ResponseEntity<List<Student>> getByDepartment(
             @PathVariable String department) {
 
-        return studentService.getByDepartment(department);
+        List<Student> students =
+                studentService.getByDepartment(department);
+
+        return ResponseEntity.ok(students);
     }
 }

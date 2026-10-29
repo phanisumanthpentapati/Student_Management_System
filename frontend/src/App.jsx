@@ -2,7 +2,8 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 
-const API_URL = "http://localhost:8080/api/students";
+const API_URL =
+  "https://student-management-system-4-x0tz.onrender.com/api/students";
 
 const emptyForm = {
   name: "",
